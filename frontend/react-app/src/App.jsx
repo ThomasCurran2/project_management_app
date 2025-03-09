@@ -1,6 +1,5 @@
 //import { useState } from "react";
 import "./App.css";
-import Header from "./components/Header";
 import Project_wrapper from "./components/project_wrapper";
 
 function App() {
