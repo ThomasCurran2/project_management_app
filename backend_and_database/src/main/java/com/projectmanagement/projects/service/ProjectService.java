@@ -1,11 +1,11 @@
 package com.projectmanagement.projects.service;
-import org.springframework.data.domain.Page;
 
 import com.projectmanagement.projects.domain.Project;
 import com.projectmanagement.projects.repo.ProjectRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class ProjectService {
     }
 
     public Project getProject(String id){
-        return projectRepo.findBy(id).orElseThrow(() -> new RuntimeException("Project not found"));
+        return projectRepo.findById(id).orElseThrow(() -> new RuntimeException("Project not found"));
     }
 
     public Project createProject(Project project){

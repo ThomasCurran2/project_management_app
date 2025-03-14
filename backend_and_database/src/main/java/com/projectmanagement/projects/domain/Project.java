@@ -25,10 +25,10 @@ public class Project {
     @Column(name = "id", unique = true, updatable = false)
     private String id;
     private String name;
-    private String desc;
+    private String description;
     private String month;
     private String day;
     private String year;
-    private String prio;
+    private String priority;
 
 }
