@@ -1,44 +1,48 @@
 //import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Project_wrapper from "./components/project_wrapper";
+import { getProjects } from "./api/ProjectService";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
+  const [data, setData] = useState({});
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const getAllProjects = async (page = 0, size = 10) => {
+    try {
+      setCurrentPage(page);
+      const { data } = await getProjects(page, size);
+      setData(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllProjects();
+  }, []);
+
   return (
     <>
       <div className="App">
-        <Project_wrapper />
+        <Routes>
+          <Route path="/" element={<Navigate to={"/projects"} />} />
+          <Route
+            path="/projects"
+            element={
+              <Project_wrapper
+                data={data}
+                currentPage={currentPage}
+                getAllProjects={getAllProjects}
+              />
+            }
+          />
+        </Routes>
       </div>
     </>
   );
-
-  /*
-  return (
-    <>
-      <div>
-        <Header />
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-    
-  );
-  */
 }
 
 export default App;

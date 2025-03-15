@@ -6,7 +6,7 @@ import Edit_form from "./edit_form";
 
 uuidv4();
 
-function Project_wrapper() {
+function Project_wrapper({ data, currentPage, getAllProjects }) {
   const [projects, setProjects] = useState([]);
 
   const [isAdding, setIsAdding] = useState(false);
@@ -83,7 +83,7 @@ function Project_wrapper() {
   };
 
   const printer = () => {
-    projects.map((project) => console.log(project));
+    projects.map((data) => console.log(data.content.name));
   };
 
   return (
@@ -97,7 +97,11 @@ function Project_wrapper() {
       <button className="test_button" onClick={printer}>
         test
       </button>
-      {isAdding ? (
+      {data?.content?.length === 0 ? (
+        <div>
+          <h1>No Projects. Please add a new project.</h1>
+        </div>
+      ) : isAdding ? (
         <div>
           <h1>Create New Project</h1>
           <Project_form addProject={addProject} />
@@ -121,16 +125,45 @@ function Project_wrapper() {
           ) : null
         )
       ) : (
-        projects.map((project, index) => (
+        data.content?.map((project) => (
           <div>
             <Projects
               task={project}
-              key={index}
+              key={project.id}
               deleteProject={deleteProject}
               editProject={editProject}
             />
           </div>
         ))
+      )}
+
+      {data?.content?.length > 0 && data?.totalPages > 1 && (
+        <div>
+          <a
+            onClick={() => getAllProjects(currentPage - 1)}
+            className={0 === currentPage ? "disabled" : ""}
+          >
+            &laquo;
+          </a>
+
+          {data &&
+            [...Array(data.totalPages).keys()].map((page) => (
+              <a
+                onClick={getAllProjects(page)}
+                className={currentPage === page ? "active" : ""}
+                key={page}
+              >
+                {page + 1}
+              </a>
+            ))}
+
+          <a
+            onClick={() => getAllProjects(currentPage + 1)}
+            className={data.totalPages + 1 === currentPage ? "disabled" : ""}
+          >
+            &raquo;
+          </a>
+        </div>
       )}
     </div>
   );
