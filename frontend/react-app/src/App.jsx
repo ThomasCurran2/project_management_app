@@ -1,9 +1,13 @@
 //import { useState } from "react";
 import { useEffect, useState } from "react";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import Project_wrapper from "./components/project_wrapper";
 import { getProjects } from "./api/ProjectService";
 import { Routes, Route, Navigate } from "react-router-dom";
+import Edit_form from "./components/edit_form";
+import { toastErorr } from "./api/ToastService";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [data, setData] = useState({});
@@ -17,6 +21,7 @@ function App() {
       console.log(data);
     } catch (error) {
       console.log(error);
+      toastErorr(error);
     }
   };
 
@@ -39,8 +44,10 @@ function App() {
               />
             }
           />
+          <Route path="/projects/:id" element={<Edit_form />} />
         </Routes>
       </div>
+      <ToastContainer position="top-right" />
     </>
   );
 }

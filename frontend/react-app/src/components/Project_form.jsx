@@ -1,25 +1,28 @@
 import React, { useState } from "react";
+import { saveProject } from "../api/ProjectService";
+import { toastErorr, toastSuccess } from "../api/ToastService";
 
-function Project_form({ addProject }) {
-  const [Name, setName] = useState("");
-
-  const [Desc, setDesc] = useState("");
-
-  const [Month, setMonth] = useState("");
-
-  const [Day, setDay] = useState("");
-
-  const [Year, setYear] = useState("");
-
-  const [Prio, setPrio] = useState("");
+function Project_form({ toggleProjectForm, getAllProjects }) {
+  const [data, setData] = useState({
+    name: "",
+    description: "",
+    month: "",
+    day: "",
+    year: "",
+    priority: "",
+  });
 
   const [errors, setErrors] = useState({});
 
-  const handlePrioClick = (value) => {
-    setPrio(value);
+  const onChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handlePrioClick = (prio) => {
+    setData({ ...data, ["priority"]: prio });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let isValid = true;
@@ -29,38 +32,38 @@ function Project_form({ addProject }) {
     // eslint-disable-next-line no-useless-escape
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
-    if (Name.trim() === "") {
+    if (data.name.trim() === "") {
       errorMsg.name = "Name is required";
       isValid = false;
-    } else if (specialChars.test(Name)) {
+    } else if (specialChars.test(data.name)) {
       errorMsg.name = "Name must not contain any special characters";
       isValid = false;
     }
 
-    if (Desc.trim() === "") {
+    if (data.description.trim() === "") {
       errorMsg.desc = "Description is required";
       isValid = false;
-    } else if (specialChars.test(Desc)) {
+    } else if (specialChars.test(data.description)) {
       errorMsg.desc = "Description must not contain any special characters";
       isValid = false;
     }
 
-    if (Month.trim() === "") {
+    if (data.month.trim() === "") {
       errorMsg.month = "A month is required";
       isValid = false;
     }
 
-    if (Day.trim() === "") {
+    if (data.day.trim() === "") {
       errorMsg.date = "A day is required";
       isValid = false;
     }
 
-    if (Year.trim() === "") {
+    if (data.year.trim() === "") {
       errorMsg.year = "A year is required";
       isValid = false;
     }
 
-    if (Prio.trim() === "") {
+    if (data.priority.trim() === "") {
       errorMsg.prio = "Priority is required";
       isValid = false;
     }
@@ -68,15 +71,29 @@ function Project_form({ addProject }) {
     setErrors(errorMsg);
 
     if (isValid) {
-      addProject(Name.trim(), Desc.trim(), Month, Day, Year, Prio);
+      try {
+        await saveProject(data);
+        toastSuccess("Successfully Created Project");
+      } catch (error) {
+        console.log(error);
+        toastErorr(error);
+      }
 
-      setName("");
-      setDesc("");
-      setMonth("");
-      setDay("");
-      setYear("");
-      setPrio("");
       setErrors({});
+
+      console.log(data);
+
+      setData({
+        name: "",
+        description: "",
+        month: "",
+        day: "",
+        year: "",
+        priority: "",
+      });
+
+      getAllProjects();
+      toggleProjectForm();
     }
   };
 
@@ -84,10 +101,11 @@ function Project_form({ addProject }) {
     <form className="project_form" onSubmit={handleSubmit}>
       <input
         type="text"
+        name="name"
         className="project_name"
-        value={Name}
+        value={data.name}
         placeholder="Project name"
-        onChange={(e) => setName(e.target.value)}
+        onChange={onChange}
       ></input>
       {errors.name && <p className="error-message">{errors.name}</p>}
 
@@ -95,10 +113,11 @@ function Project_form({ addProject }) {
 
       <input
         type="text"
+        name="description"
         className="project_desc"
-        value={Desc}
+        value={data.description}
         placeholder="Description"
-        onChange={(e) => setDesc(e.target.value)}
+        onChange={onChange}
       ></input>
       {errors.desc && <p className="error-message">{errors.desc}</p>}
 
@@ -107,32 +126,35 @@ function Project_form({ addProject }) {
         <h3>Due date</h3>
         <input
           type="number"
+          name="month"
           className="month"
           min="1"
           max="12"
-          value={Month}
+          value={data.month}
           placeholder="mm"
-          onChange={(e) => setMonth(e.target.value)}
+          onChange={onChange}
         ></input>
 
         <input
           type="number"
+          name="day"
           className="day"
           min="1"
           max="31"
-          value={Day}
+          value={data.day}
           placeholder="dd"
-          onChange={(e) => setDay(e.target.value)}
+          onChange={onChange}
         ></input>
 
         <input
           type="number"
+          name="year"
           className="year"
           min="2025"
           max="9999"
-          value={Year}
+          value={data.year}
           placeholder="yyyy"
-          onChange={(e) => setYear(e.target.value)}
+          onChange={onChange}
         ></input>
       </div>
       {errors.month && <p className="error-message">{errors.month}</p>}
@@ -146,21 +168,27 @@ function Project_form({ addProject }) {
         <p></p>
         <button
           type="button"
+          name="priority"
           className="low_priority"
+          value={data.priority}
           onClick={() => handlePrioClick("Low")}
         >
           Low
         </button>
         <button
           type="button"
+          name="priority"
           className="med_priority"
+          value={data.priority}
           onClick={() => handlePrioClick("Medium")}
         >
           Medium
         </button>
         <button
           type="button"
+          name="priority"
           className="high_priority"
+          value={data.priority}
           onClick={() => handlePrioClick("High")}
         >
           High

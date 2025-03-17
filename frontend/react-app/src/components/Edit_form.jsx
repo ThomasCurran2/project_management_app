@@ -1,25 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getProject, saveProject } from "../api/ProjectService";
+import { Link, useParams } from "react-router-dom";
+import { toastErorr, toastSuccess } from "../api/ToastService";
 
-function Edit_form({ editProject, task }) {
-  const [Name, setName] = useState(task.task);
-
-  const [Desc, setDesc] = useState(task.task_desc);
-
-  const [Month, setMonth] = useState(task.task_month);
-
-  const [Day, setDay] = useState(task.task_day);
-
-  const [Year, setYear] = useState(task.task_year);
-
-  const [Prio, setPrio] = useState(task.task_prio);
+function Edit_form() {
+  const [project, setProject] = useState({
+    id: "",
+    name: "",
+    description: "",
+    month: "",
+    day: "",
+    year: "",
+    priority: "",
+  });
 
   const [errors, setErrors] = useState({});
 
-  const handlePrioClick = (value) => {
-    setPrio(value);
+  const { id } = useParams();
+  console.log(id);
+
+  const fetchProject = async (id) => {
+    try {
+      const { data } = await getProject(id);
+      setProject(data);
+      console.log(project);
+    } catch (error) {
+      console.log(error);
+      toastErorr(error);
+    }
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    fetchProject(id);
+  }, []);
+
+  const onChange = (e) => {
+    setProject({ ...project, [e.target.name]: e.target.value });
+  };
+
+  const handlePrioClick = (prio) => {
+    setProject({ ...project, ["priority"]: prio });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     let isValid = true;
@@ -29,38 +52,38 @@ function Edit_form({ editProject, task }) {
     // eslint-disable-next-line no-useless-escape
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
-    if (Name.trim() === "") {
+    if (project.name.trim() === "") {
       errorMsg.name = "Name is required";
       isValid = false;
-    } else if (specialChars.test(Name)) {
+    } else if (specialChars.test(project.name)) {
       errorMsg.name = "Name must not contain any special characters";
       isValid = false;
     }
 
-    if (Desc.trim() === "") {
+    if (project.description.trim() === "") {
       errorMsg.desc = "Description is required";
       isValid = false;
-    } else if (specialChars.test(Desc)) {
+    } else if (specialChars.test(project.description)) {
       errorMsg.desc = "Description must not contain any special characters";
       isValid = false;
     }
 
-    if (Month.trim() === "") {
+    if (project.month.trim() === "") {
       errorMsg.month = "A month is required";
       isValid = false;
     }
 
-    if (Day.trim() === "") {
+    if (project.day.trim() === "") {
       errorMsg.date = "A day is required";
       isValid = false;
     }
 
-    if (Year.trim() === "") {
+    if (project.year.trim() === "") {
       errorMsg.year = "A year is required";
       isValid = false;
     }
 
-    if (Prio.trim() === "") {
+    if (project.priority.trim() === "") {
       errorMsg.prio = "Priority is required";
       isValid = false;
     }
@@ -68,27 +91,39 @@ function Edit_form({ editProject, task }) {
     setErrors(errorMsg);
 
     if (isValid) {
-      editProject(Name, Desc, Month, Day, Year, Prio, task.id);
+      try {
+        await saveProject(project);
+        toastSuccess("Successfully Updated Project");
+      } catch (error) {
+        console.log(error);
+        toastErorr(error);
+      }
 
-      setName("");
-      setDesc("");
-      setMonth("");
-      setDay("");
-      setYear("");
-      setPrio("");
+      setErrors({});
+
+      setProject({
+        name: "",
+        description: "",
+        month: "",
+        day: "",
+        year: "",
+        priority: "",
+      });
+
+      fetchProject(id);
     }
-
-    console.log(Name, Desc, Date, Prio);
   };
 
   return (
     <form className="project_form" onSubmit={handleSubmit}>
+      <input type="hidden" defaultValue={project.id} name="id" required></input>
       <input
         type="text"
+        name="name"
         className="project_name"
-        value={Name}
-        placeholder="Update project"
-        onChange={(e) => setName(e.target.value)}
+        value={project.name}
+        placeholder="Project name"
+        onChange={onChange}
       ></input>
       {errors.name && <p className="error-message">{errors.name}</p>}
 
@@ -96,45 +131,48 @@ function Edit_form({ editProject, task }) {
 
       <input
         type="text"
+        name="description"
         className="project_desc"
-        value={Desc}
-        placeholder="Update description"
-        onChange={(e) => setDesc(e.target.value)}
+        value={project.description}
+        placeholder="Description"
+        onChange={onChange}
       ></input>
       {errors.desc && <p className="error-message">{errors.desc}</p>}
 
       <p></p>
-
       <div>
         <h3>Due date</h3>
         <input
           type="number"
+          name="month"
           className="month"
           min="1"
           max="12"
-          value={Month}
+          value={project.month}
           placeholder="mm"
-          onChange={(e) => setMonth(e.target.value)}
+          onChange={onChange}
         ></input>
 
         <input
           type="number"
+          name="day"
           className="day"
           min="1"
           max="31"
-          value={Day}
+          value={project.day}
           placeholder="dd"
-          onChange={(e) => setDay(e.target.value)}
+          onChange={onChange}
         ></input>
 
         <input
           type="number"
+          name="year"
           className="year"
           min="2025"
           max="9999"
-          value={Year}
+          value={project.year}
           placeholder="yyyy"
-          onChange={(e) => setYear(e.target.value)}
+          onChange={onChange}
         ></input>
       </div>
       {errors.month && <p className="error-message">{errors.month}</p>}
@@ -148,21 +186,27 @@ function Edit_form({ editProject, task }) {
         <p></p>
         <button
           type="button"
+          name="priority"
           className="low_priority"
+          value={project.priority}
           onClick={() => handlePrioClick("Low")}
         >
           Low
         </button>
         <button
           type="button"
+          name="priority"
           className="med_priority"
+          value={project.priority}
           onClick={() => handlePrioClick("Medium")}
         >
           Medium
         </button>
         <button
           type="button"
+          name="priority"
           className="high_priority"
+          value={project.priority}
           onClick={() => handlePrioClick("High")}
         >
           High
@@ -173,9 +217,13 @@ function Edit_form({ editProject, task }) {
       <p></p>
 
       <button type="submit" className="project_button">
-        Update
+        Confirm
       </button>
+      <Link to={"/"} className="Link">
+        Back
+      </Link>
     </form>
+    // Have it load all projects when returnign to the project page
   );
 }
 

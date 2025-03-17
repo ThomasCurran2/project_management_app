@@ -1,17 +1,20 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Projects({ task, deleteProject, editProject }) {
+function Projects({ project, deleteProject }) {
   return (
     <div className="Projects">
-      <p>{task.name}</p>
-      <p>{task.description}</p>
-      <p>{"Due date: " + task.month + "/" + task.day + "/" + task.year}</p>
-      <p>{task.prio}</p>
+      <p>{project.name}</p>
+      <p>{project.description}</p>
+      <p>
+        {"Due date: " + project.month + "/" + project.day + "/" + project.year}
+      </p>
+      <p>{project.priority}</p>
       <div>
-        <button className="Edit" onClick={() => editProject(task.id)}>
-          Edit
-        </button>
-        <button className="Delete" onClick={() => deleteProject(task.id)}>
+        <Link to={`/projects/${project.id}`} className="edit_link">
+          <h4>edit</h4>
+        </Link>
+        <button className="Delete" onClick={() => deleteProject(project.id)}>
           Delete
         </button>
       </div>
