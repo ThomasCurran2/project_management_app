@@ -6,7 +6,7 @@ import Project_wrapper from "./components/project_wrapper";
 import { getProjects } from "./api/ProjectService";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Edit_form from "./components/edit_form";
-import { toastErorr } from "./api/ToastService";
+import { toastError } from "./api/ToastService";
 import { ToastContainer } from "react-toastify";
 
 function App() {
@@ -21,11 +21,12 @@ function App() {
       console.log(data);
     } catch (error) {
       console.log(error);
-      toastErorr(error);
+      toastError(error);
     }
   };
 
   useEffect(() => {
+    console.log();
     getAllProjects();
   }, []);
 

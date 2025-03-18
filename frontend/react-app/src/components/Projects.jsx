@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Projects({ project, deleteProject }) {
+function Projects({ project }) {
   return (
     <div className="Projects">
       <p>{project.name}</p>
@@ -14,9 +14,6 @@ function Projects({ project, deleteProject }) {
         <Link to={`/projects/${project.id}`} className="edit_link">
           <h4>edit</h4>
         </Link>
-        <button className="Delete" onClick={() => deleteProject(project.id)}>
-          Delete
-        </button>
       </div>
     </div>
   );

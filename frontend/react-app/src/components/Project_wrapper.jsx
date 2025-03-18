@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import Project_form from "./project_form";
 import Projects from "./projects";
-import Edit_form from "./edit_form";
 
 function Project_wrapper({ data, currentPage, getAllProjects }) {
-  const [projects, setProjects] = useState([]);
-
   const [isAdding, setIsAdding] = useState(false);
 
   const toggleProjectForm = () => {
@@ -15,23 +12,12 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
     console.log(isAdding);
   };
 
-  const deleteProject = (id) =>
-    setProjects(projects.filter((project) => project.id !== id));
-
-  const printer = () => {
-    projects.map((data) => console.log(data.content.name));
-  };
-
   return (
     <div className="Project_wrapper">
       <h1>Projects</h1>
 
       <button className="add_button" onClick={toggleProjectForm}>
         Add New Project
-      </button>
-
-      <button className="test_button" onClick={printer}>
-        test
       </button>
 
       {data?.content?.length === 0 ? (
@@ -49,11 +35,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
       ) : (
         data.content?.map((project) => (
           <div>
-            <Projects
-              project={project}
-              key={project.id}
-              deleteProject={deleteProject}
-            />
+            <Projects project={project} key={project.id} />
           </div>
         ))
       )}

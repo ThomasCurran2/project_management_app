@@ -22,6 +22,6 @@ export function toastWarning(message) {
   toast.warn(message, toastConfig);
 }
 
-export function toastErorr(message) {
-  toast.erorr(message, toastConfig);
+export function toastError(message) {
+  toast.error(message, toastConfig);
 }

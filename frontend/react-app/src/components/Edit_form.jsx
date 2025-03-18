@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getProject, saveProject } from "../api/ProjectService";
+import { deleteProject, getProject, saveProject } from "../api/ProjectService";
 import { Link, useParams } from "react-router-dom";
-import { toastErorr, toastSuccess } from "../api/ToastService";
+import { toastError, toastSuccess } from "../api/ToastService";
 
 function Edit_form() {
   const [project, setProject] = useState({
@@ -26,7 +26,17 @@ function Edit_form() {
       console.log(project);
     } catch (error) {
       console.log(error);
-      toastErorr(error);
+      toastError(error);
+    }
+  };
+
+  const tryDelete = async (id) => {
+    try {
+      await deleteProject(id);
+      toastSuccess("Successfully Deleted Project");
+    } catch (error) {
+      console.log(error);
+      toastError(error);
     }
   };
 
@@ -96,7 +106,7 @@ function Edit_form() {
         toastSuccess("Successfully Updated Project");
       } catch (error) {
         console.log(error);
-        toastErorr(error);
+        toastError(error);
       }
 
       setErrors({});
@@ -219,6 +229,15 @@ function Edit_form() {
       <button type="submit" className="project_button">
         Confirm
       </button>
+
+      <button
+        type="button"
+        className="delete_button"
+        onClick={() => tryDelete(id)}
+      >
+        Delete
+      </button>
+
       <Link to={"/"} className="Link">
         Back
       </Link>

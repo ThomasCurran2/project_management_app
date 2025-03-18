@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { saveProject } from "../api/ProjectService";
-import { toastErorr, toastSuccess } from "../api/ToastService";
+import { toastError, toastSuccess } from "../api/ToastService";
 
 function Project_form({ toggleProjectForm, getAllProjects }) {
   const [data, setData] = useState({
@@ -76,7 +76,7 @@ function Project_form({ toggleProjectForm, getAllProjects }) {
         toastSuccess("Successfully Created Project");
       } catch (error) {
         console.log(error);
-        toastErorr(error);
+        toastError(error);
       }
 
       setErrors({});
