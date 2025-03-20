@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Edit_form from "./components/edit_form";
 import { toastError } from "./api/ToastService";
 import { ToastContainer } from "react-toastify";
+import Credential_wrapper from "./components/Credential_wrapper";
 
 function App() {
   const [data, setData] = useState({});
@@ -34,7 +35,8 @@ function App() {
     <>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Navigate to={"/projects"} />} />
+          <Route path="/" element={<Navigate to={"/credentials"} />} />
+          <Route path="/credentials" element={<Credential_wrapper />} />
           <Route
             path="/projects"
             element={
