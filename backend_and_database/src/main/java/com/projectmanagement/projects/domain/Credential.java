@@ -23,6 +23,7 @@ public class Credential {
     @UuidGenerator
     @Column(name = "id", unique = true, updatable = false)
     private String id;
+    @Column(name = "username", unique = true, updatable = false)
     private String username;
     private String password;
     private String permission;

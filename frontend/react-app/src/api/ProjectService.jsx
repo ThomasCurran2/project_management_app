@@ -14,10 +14,6 @@ export async function getProject(id) {
   return await axios.get(`${API_URL}/${id}`);
 }
 
-export async function updateProject(id) {
-  return await axios.post(`${API_URL}/${id}`);
-}
-
 export async function deleteProject(id) {
   return await axios.delete(`${API_URL}/${id}`);
 }

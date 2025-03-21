@@ -1,5 +1,8 @@
 import React from "react";
 import { useState } from "react";
+import { getAuthenticated } from "../api/CredentialService";
+import { toastError, toastSuccess, toastWarning } from "../api/ToastService";
+import { useNavigate } from "react-router-dom";
 
 function Log_in_form() {
   const [credentials, setCredentials] = useState({
@@ -8,6 +11,8 @@ function Log_in_form() {
   });
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -18,16 +23,22 @@ function Log_in_form() {
 
     let isValid = true;
 
+    let logStatus;
+
     const errorMsg = {};
 
     // eslint-disable-next-line no-useless-escape
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    const specialChars = /[`! @#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
     if (credentials.username.trim() === "") {
       errorMsg.username = "Username is required";
       isValid = false;
     } else if (specialChars.test(credentials.username)) {
-      errorMsg.username = "Username must not contain any special characters";
+      errorMsg.username =
+        "Username must not contain any special characters or spaces";
+      isValid = false;
+    } else if (credentials.username.length < 12) {
+      errorMsg.username = "Username must be at leat 12 characters long";
       isValid = false;
     }
 
@@ -35,33 +46,45 @@ function Log_in_form() {
       errorMsg.password = "Password is required";
       isValid = false;
     } else if (specialChars.test(credentials.password)) {
-      errorMsg.password = "Password must not contain any special characters";
+      errorMsg.password =
+        "Password must not contain any special characters or spaces";
+      isValid = false;
+    } else if (credentials.password.length < 12) {
+      errorMsg.password = "Password must be at leat 12 characters long";
       isValid = false;
     }
 
     setErrors(errorMsg);
 
     if (isValid) {
-      /*
-        try {
-          await saveProject(data);
-          toastSuccess("Successfully Created Project");
-        } catch (error) {
-          console.log(error);
-          toastError(error);
-        }
-  */
-      setErrors({});
+      try {
+        logStatus = await getAuthenticated(
+          credentials.username,
+          credentials.password
+        );
+      } catch (error) {
+        console.log(error);
+        toastError(error);
+      }
 
-      console.log(credentials);
+      setErrors({});
 
       setCredentials({
         username: "",
         password: "",
       });
 
-      //getAllProjects();
-      //toggleProjectForm();
+      //console.log(logStatus);
+
+      if (logStatus.data[0] == "true") {
+        toastSuccess("Successfully Logged In");
+        console.log(logStatus);
+        navigate("/projects", {
+          state: { User: logStatus.data[1], perms: logStatus.data[2] },
+        });
+      } else {
+        toastWarning("Inncorrect Password!");
+      }
     }
   };
 
@@ -71,7 +94,7 @@ function Log_in_form() {
         type="text"
         name="username"
         className="username"
-        value={credentials.username}
+        value={credentials.username.toLocaleLowerCase()}
         placeholder="Username"
         onChange={onChange}
       ></input>

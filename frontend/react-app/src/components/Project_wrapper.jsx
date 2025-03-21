@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import Project_form from "./project_form";
 import Projects from "./projects";
 
 function Project_wrapper({ data, currentPage, getAllProjects }) {
   const [isAdding, setIsAdding] = useState(false);
+
+  const { state } = useLocation();
 
   const toggleProjectForm = () => {
     {
@@ -15,6 +18,11 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
   return (
     <div className="Project_wrapper">
       <h1>Projects</h1>
+
+      <div>
+        <h1>{state.User}</h1>
+        <h1>{state.perms}</h1>
+      </div>
 
       <button className="add_button" onClick={toggleProjectForm}>
         Add New Project

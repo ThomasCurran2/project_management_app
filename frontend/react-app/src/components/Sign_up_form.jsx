@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { saveCredential } from "../api/CredentialService";
+import { toastError, toastSuccess } from "../api/ToastService";
 
 function Sign_up_form() {
   const [account, setAccount] = useState({
@@ -13,25 +15,25 @@ function Sign_up_form() {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
 
-  const handlePermission = (value) => {
-    setAccount({ ...account, ["permission"]: value });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     let isValid = true;
 
     const errorMsg = {};
-
+    //at least 12 chars long
     // eslint-disable-next-line no-useless-escape
-    const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    const specialChars = /[`! @#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
 
     if (account.username.trim() === "") {
       errorMsg.username = "Username is required";
       isValid = false;
     } else if (specialChars.test(account.username)) {
-      errorMsg.username = "Username must not contain any special characters";
+      errorMsg.username =
+        "Username must not contain any special characters or spaces";
+      isValid = false;
+    } else if (account.username.length < 12) {
+      errorMsg.username = "Username must be at leat 12 characters long";
       isValid = false;
     }
 
@@ -39,30 +41,26 @@ function Sign_up_form() {
       errorMsg.password = "Password is required";
       isValid = false;
     } else if (specialChars.test(account.password)) {
-      errorMsg.password = "Password must not contain any special characters";
+      errorMsg.password =
+        "Password must not contain any special characters or spaces";
       isValid = false;
-    }
-
-    if (account.password.trim() === "Admin") {
-      console.log("admin permmision granted");
-      handlePermission("Admin");
-    } else {
-      handlePermission("Employee");
+    } else if (account.password.length < 12) {
+      errorMsg.password = "Password must be at leat 12 characters long";
+      isValid = false;
     }
     // Add more rules for password and username format
 
     setErrors(errorMsg);
 
     if (isValid) {
-      /*
       try {
-        await saveProject(data);
-        toastSuccess("Successfully Created Project");
+        await saveCredential(account);
+        toastSuccess("Successfully Created Account");
       } catch (error) {
         console.log(error);
         toastError(error);
       }
-*/
+
       setErrors({});
 
       console.log(account);
@@ -72,9 +70,6 @@ function Sign_up_form() {
         password: "",
         permission: "",
       });
-
-      //getAllProjects();
-      //toggleProjectForm();
     }
   };
 
@@ -84,7 +79,7 @@ function Sign_up_form() {
         type="text"
         name="username"
         className="username"
-        value={account.username}
+        value={account.username.toLowerCase()}
         placeholder="Username"
         onChange={onChange}
       ></input>

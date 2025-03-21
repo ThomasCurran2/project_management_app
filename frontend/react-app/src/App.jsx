@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Project_wrapper from "./components/project_wrapper";
 import { getProjects } from "./api/ProjectService";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Edit_form from "./components/edit_form";
+import Edit_form from "./components/Edit_form";
 import { toastError } from "./api/ToastService";
 import { ToastContainer } from "react-toastify";
 import Credential_wrapper from "./components/Credential_wrapper";
