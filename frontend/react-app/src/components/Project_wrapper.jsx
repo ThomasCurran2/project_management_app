@@ -22,6 +22,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
       <div>
         <h1>{state.User}</h1>
         <h1>{state.perms}</h1>
+        <h1>{state.UserList}</h1>
       </div>
 
       <button className="add_button" onClick={toggleProjectForm}>
@@ -38,6 +39,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
           <Project_form
             toggleProjectForm={toggleProjectForm}
             getAllProjects={getAllProjects}
+            userList={state.UserList}
           />
         </div>
       ) : (

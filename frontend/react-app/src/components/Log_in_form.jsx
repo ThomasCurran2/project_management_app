@@ -80,7 +80,11 @@ function Log_in_form() {
         toastSuccess("Successfully Logged In");
         console.log(logStatus);
         navigate("/projects", {
-          state: { User: logStatus.data[1], perms: logStatus.data[2] },
+          state: {
+            User: logStatus.data[1],
+            perms: logStatus.data[2],
+            UserList: logStatus.data[3],
+          },
         });
       } else {
         toastWarning("Inncorrect Password!");

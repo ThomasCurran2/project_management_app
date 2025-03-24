@@ -12,7 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -23,8 +25,9 @@ public class CredentialService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Page<Credential> getAllCredentials(int page, int size){
-        return credentialRepo.findAll(PageRequest.of(page, size, Sort.by("username")));
+    public String[] getAllUsernames(){
+        List<Credential> credential = credentialRepo.findAll();
+        return credential.stream().map(Credential::getUsername).toArray(String[]::new);
     }
 
     public Credential getCredential(String username){

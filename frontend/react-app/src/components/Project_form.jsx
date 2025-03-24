@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { saveProject } from "../api/ProjectService";
 import { toastError, toastSuccess } from "../api/ToastService";
 
-function Project_form({ toggleProjectForm, getAllProjects }) {
+function Project_form({ toggleProjectForm, getAllProjects, userList }) {
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -10,12 +10,51 @@ function Project_form({ toggleProjectForm, getAllProjects }) {
     day: "",
     year: "",
     priority: "",
+    userArray: [],
   });
 
   const [errors, setErrors] = useState({});
 
+  const checkboxRef = useRef(null);
+
+  useEffect(() => {
+    if (checkboxRef.current) {
+      loadCheckboxes();
+    } else {
+      console.log("checkboxes not found");
+    }
+  }, []);
+
+  const loadCheckboxes = () => {
+    console.log(userList);
+    userList.forEach((element) => {
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = element;
+      checkbox.onChange = { onCheckboxChange };
+
+      const label = document.createElement("label");
+      label.textContent = element;
+
+      checkboxRef.current.appendChild(checkbox);
+      checkboxRef.current.appendChild(label);
+      checkboxRef.current.appendChild(document.createElement("br"));
+    });
+  };
+
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const onCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setData({ ...data, ["userArray"]: value });
+      console.log(data);
+    } else {
+      setData(data.filter((e) => e !== value));
+      console.log(data);
+    }
   };
 
   const handlePrioClick = (prio) => {
@@ -195,6 +234,8 @@ function Project_form({ toggleProjectForm, getAllProjects }) {
         </button>
       </div>
       {errors.prio && <p className="error-message">{errors.prio}</p>}
+
+      <div ref={checkboxRef} id="checkbox-div"></div>
 
       <p></p>
 

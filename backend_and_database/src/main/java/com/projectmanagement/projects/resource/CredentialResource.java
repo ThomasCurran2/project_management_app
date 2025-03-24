@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Arrays;
 
@@ -22,12 +23,12 @@ public class CredentialResource {
     public ResponseEntity<Credential> createCredential (@RequestBody Credential credential){
         return ResponseEntity.created(URI.create("/credentials/credentialID")).body(credentialService.createCredential(credential));
     }
-    /*
-            @GetMapping
-            public ResponseEntity<Page<Credential>> getCredentials(@RequestParam(value = "page", defaultValue = "0") int page,
+/*
+    @GetMapping("/{id}")
+    public ResponseEntity<Page<Credential>> getCredentials(@RequestParam(value = "page", defaultValue = "0") int page,
                                                              @RequestParam(value = "size", defaultValue = "10") int size) {
-                return ResponseEntity.ok().body(credentialService.getAllCredentials(page, size));
-            }
+        return ResponseEntity.ok().body(credentialService.getAllCredentials(page, size));
+    }
 
                 @GetMapping("/{id}")
                 public ResponseEntity<Credential> getCredential(@PathVariable(value = "id") String id){
@@ -36,20 +37,21 @@ public class CredentialResource {
      */
 
     @GetMapping
-    public ResponseEntity<String[]> getAuthenticated(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password){
-        String[] response = new String[3];
+    public ResponseEntity<List<Object>> getAuthenticated(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password){
+        List<Object> response = new ArrayList<>();
         boolean match = credentialService.authenticate(username, password);
 
         if(match) {
             Credential credential = credentialService.getCredential(username);
 
-            response[0] = "true";
-            response[1] = credential.getUsername();
-            response[2] = credential.getPermission();
+            response.add("true");
+            response.add(credential.getUsername());
+            response.add(credential.getPermission());
+            response.add(credentialService.getAllUsernames());
         } else {
-            response[0] = "false";
-            response[1] = "null";
-            response[2] = "null";
+            response.add("false");
+            response.add("null");
+            response.add("null");
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
