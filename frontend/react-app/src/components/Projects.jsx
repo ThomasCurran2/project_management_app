@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function Projects({ project }) {
+function Projects({ project, userList }) {
+  const navigate = useNavigate();
+
+  const toEdit = () => {
+    navigate(`/projects/${project.id}`, {
+      state: {
+        allUsers: userList,
+        currUsers: project.userArray,
+      },
+    });
+  };
+
   return (
     <div className="Projects">
       <p>{project.name}</p>
@@ -10,10 +21,11 @@ function Projects({ project }) {
         {"Due date: " + project.month + "/" + project.day + "/" + project.year}
       </p>
       <p>{project.priority}</p>
+      <p>{"Assigned workers: " + project.userArray}</p>
       <div>
-        <Link to={`/projects/${project.id}`} className="edit_link">
-          <h4>edit</h4>
-        </Link>
+        <button className="editButton" onClick={toEdit}>
+          edit
+        </button>
       </div>
     </div>
   );

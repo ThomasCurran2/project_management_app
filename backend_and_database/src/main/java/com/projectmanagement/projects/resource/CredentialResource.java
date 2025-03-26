@@ -3,7 +3,6 @@ package com.projectmanagement.projects.resource;
 import com.projectmanagement.projects.domain.Credential;
 import com.projectmanagement.projects.service.CredentialService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/credentials")

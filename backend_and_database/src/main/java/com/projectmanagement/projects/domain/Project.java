@@ -30,6 +30,6 @@ public class Project {
     private String day;
     private String year;
     private String priority;
-    private String[] workerArray;
+    private String[] userArray;
 
 }

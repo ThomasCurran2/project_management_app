@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { saveProject } from "../api/ProjectService";
 import { toastError, toastSuccess } from "../api/ToastService";
 
@@ -13,48 +13,29 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     userArray: [],
   });
 
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
   const [errors, setErrors] = useState({});
-
-  const checkboxRef = useRef(null);
-
-  useEffect(() => {
-    if (checkboxRef.current) {
-      loadCheckboxes();
-    } else {
-      console.log("checkboxes not found");
-    }
-  }, []);
-
-  const loadCheckboxes = () => {
-    console.log(userList);
-    userList.forEach((element) => {
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.value = element;
-      checkbox.onChange = { onCheckboxChange };
-
-      const label = document.createElement("label");
-      label.textContent = element;
-
-      checkboxRef.current.appendChild(checkbox);
-      checkboxRef.current.appendChild(label);
-      checkboxRef.current.appendChild(document.createElement("br"));
-    });
-  };
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  //Fix data to not be delayed when saved to
   const onCheckboxChange = (e) => {
     const { value, checked } = e.target;
+
     if (checked) {
-      setData({ ...data, ["userArray"]: value });
-      console.log(data);
+      setSelectedUsers((prevUsers) => [...prevUsers, value]);
+      //console.log(selectedUsers);
     } else {
-      setData(data.filter((e) => e !== value));
-      console.log(data);
+      setSelectedUsers(selectedUsers.filter((e) => e !== value));
+      //console.log(selectedUsers);
     }
+
+    setData({ ...data, ["userArray"]: selectedUsers });
+    console.log(data.userArray);
+    //console.log(selectedUsers);
   };
 
   const handlePrioClick = (prio) => {
@@ -129,6 +110,7 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
         day: "",
         year: "",
         priority: "",
+        userArray: [],
       });
 
       getAllProjects();
@@ -235,9 +217,18 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
       </div>
       {errors.prio && <p className="error-message">{errors.prio}</p>}
 
-      <div ref={checkboxRef} id="checkbox-div"></div>
-
-      <p></p>
+      <div id="checkbox-div">
+        {userList.map((element) => (
+          <div key={element}>
+            <input
+              type="checkbox"
+              value={element}
+              onChange={onCheckboxChange}
+            />
+            <label>{element}</label>
+          </div>
+        ))}
+      </div>
 
       <button type="submit" className="project_button">
         Add Project

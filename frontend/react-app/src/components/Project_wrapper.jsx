@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Project_form from "./project_form";
+import Project_form from "./Project_form";
 import Projects from "./projects";
 
 function Project_wrapper({ data, currentPage, getAllProjects }) {
@@ -45,7 +45,11 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
       ) : (
         data.content?.map((project) => (
           <div>
-            <Projects project={project} key={project.id} />
+            <Projects
+              project={project}
+              key={project.id}
+              userList={state.UserList}
+            />
           </div>
         ))
       )}
