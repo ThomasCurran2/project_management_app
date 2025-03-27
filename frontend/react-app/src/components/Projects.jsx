@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Projects({ project, userList }) {
+function Projects({ project, userList, empStatus }) {
   const navigate = useNavigate();
 
   const toEdit = () => {
@@ -22,11 +22,16 @@ function Projects({ project, userList }) {
       </p>
       <p>{project.priority}</p>
       <p>{"Assigned workers: " + project.userArray}</p>
-      <div>
-        <button className="editButton" onClick={toEdit}>
-          edit
-        </button>
-      </div>
+
+      {empStatus === "Admin" ? (
+        <div>
+          <button className="editButton" onClick={toEdit}>
+            edit
+          </button>
+        </div>
+      ) : (
+        console.log("No edit permissions")
+      )}
     </div>
   );
 }

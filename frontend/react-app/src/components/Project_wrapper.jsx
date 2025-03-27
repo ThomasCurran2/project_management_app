@@ -6,7 +6,20 @@ import Projects from "./projects";
 function Project_wrapper({ data, currentPage, getAllProjects }) {
   const [isAdding, setIsAdding] = useState(false);
 
+  const [category, setCategory] = useState("Select a category");
+
   const { state } = useLocation();
+
+  let categories = [
+    { label: "Assigned", value: "Assigned" },
+    { label: "Priority (High)", value: "High" },
+    { label: "Priority (Medium)", value: "Med" },
+    { label: "Priority (Low)", value: "Low" },
+  ];
+
+  const handleCategoryChange = (e) => {
+    setCategory(e.target.value);
+  };
 
   const toggleProjectForm = () => {
     {
@@ -22,12 +35,25 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
       <div>
         <h1>{state.User}</h1>
         <h1>{state.perms}</h1>
-        <h1>{state.UserList}</h1>
       </div>
 
-      <button className="add_button" onClick={toggleProjectForm}>
-        Add New Project
-      </button>
+      <div>
+        {category}
+        <select onChange={handleCategoryChange}>
+          <option value={"Select a category"}></option>
+          {categories.map((category) => (
+            <option value={category.value}>{category.label}</option>
+          ))}
+        </select>
+      </div>
+
+      {state.perms === "Admin" ? (
+        <button className="add_button" onClick={toggleProjectForm}>
+          Add New Project
+        </button>
+      ) : (
+        console.log("Not an Admin")
+      )}
 
       {data?.content?.length === 0 ? (
         <div>
@@ -42,6 +68,66 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
             userList={state.UserList}
           />
         </div>
+      ) : category === "Assigned" ? (
+        data.content?.map((project) => (
+          <div>
+            {project.userArray.includes(state.User) ? (
+              <Projects
+                project={project}
+                key={project.id}
+                userList={state.UserList}
+                empStatus={state.perms}
+              />
+            ) : (
+              console.log("Not assigned")
+            )}
+          </div>
+        ))
+      ) : category === "High" ? (
+        data.content?.map((project) => (
+          <div>
+            {project.priority.includes("High") ? (
+              <Projects
+                project={project}
+                key={project.id}
+                userList={state.UserList}
+                empStatus={state.perms}
+              />
+            ) : (
+              console.log("Not high priority")
+            )}
+          </div>
+        ))
+      ) : category === "Med" ? (
+        data.content?.map((project) => (
+          <div>
+            {project.priority.includes("Medium") ? (
+              <Projects
+                project={project}
+                key={project.id}
+                userList={state.UserList}
+                empStatus={state.perms}
+              />
+            ) : (
+              console.log("Not medium priority")
+            )}
+          </div>
+        ))
+      ) : category === "Low" ? (
+        data.content?.map((project) => (
+          <div>
+            {project.priority.includes("Low") ? (
+              <Projects
+                project={project}
+                key={project.id}
+                userList={state.UserList}
+                empStatus={state.perms}
+              />
+            ) : (
+              console.log("Not low priority")
+            )}
+          </div>
+        ))
       ) : (
         data.content?.map((project) => (
           <div>
@@ -49,6 +135,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               project={project}
               key={project.id}
               userList={state.UserList}
+              empStatus={state.perms}
             />
           </div>
         ))
