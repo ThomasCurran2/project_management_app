@@ -48,7 +48,6 @@ function Sign_up_form() {
       errorMsg.password = "Password must be at leat 12 characters long";
       isValid = false;
     }
-    // Add more rules for password and username format
 
     setErrors(errorMsg);
 

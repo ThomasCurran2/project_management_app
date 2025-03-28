@@ -1,14 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Projects({ project, userList, empStatus }) {
+function Projects({ project, username, userList, empStatus }) {
   const navigate = useNavigate();
 
   const toEdit = () => {
     navigate(`/projects/${project.id}`, {
       state: {
+        name: username,
+        permission: empStatus,
         allUsers: userList,
-        currUsers: project.userArray,
       },
     });
   };

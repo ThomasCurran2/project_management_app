@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { saveProject } from "../api/ProjectService";
 import { toastError, toastSuccess } from "../api/ToastService";
 
@@ -13,29 +13,30 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     userArray: [],
   });
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    console.log(data.userArray);
+  }, [data.userArray]);
 
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  //Fix data to not be delayed when saved to
   const onCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
     if (checked) {
-      setSelectedUsers((prevUsers) => [...prevUsers, value]);
-      //console.log(selectedUsers);
+      setData((prevData) => ({
+        ...prevData,
+        userArray: [...prevData.userArray, value],
+      }));
     } else {
-      setSelectedUsers(selectedUsers.filter((e) => e !== value));
-      //console.log(selectedUsers);
+      setData((prevData) => ({
+        ...prevData,
+        userArray: prevData.userArray.filter((element) => element !== value),
+      }));
     }
-
-    setData({ ...data, ["userArray"]: selectedUsers });
-    console.log(data.userArray);
-    //console.log(selectedUsers);
   };
 
   const handlePrioClick = (prio) => {
@@ -74,7 +75,7 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     }
 
     if (data.day.trim() === "") {
-      errorMsg.date = "A day is required";
+      errorMsg.day = "A day is required";
       isValid = false;
     }
 
@@ -85,6 +86,11 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
 
     if (data.priority.trim() === "") {
       errorMsg.prio = "Priority is required";
+      isValid = false;
+    }
+
+    if (data.userArray.length === 0) {
+      errorMsg.users = "At least 1 worker is required";
       isValid = false;
     }
 
@@ -229,6 +235,7 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
           </div>
         ))}
       </div>
+      {errors.users && <p className="error-message">{errors.users}</p>}
 
       <button type="submit" className="project_button">
         Add Project

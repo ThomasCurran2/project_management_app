@@ -75,8 +75,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               <Projects
                 project={project}
                 key={project.id}
-                userList={state.UserList}
+                username={state.User}
                 empStatus={state.perms}
+                userList={state.UserList}
               />
             ) : (
               console.log("Not assigned")
@@ -90,8 +91,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               <Projects
                 project={project}
                 key={project.id}
-                userList={state.UserList}
+                username={state.User}
                 empStatus={state.perms}
+                userList={state.UserList}
               />
             ) : (
               console.log("Not high priority")
@@ -105,8 +107,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               <Projects
                 project={project}
                 key={project.id}
-                userList={state.UserList}
+                username={state.User}
                 empStatus={state.perms}
+                userList={state.UserList}
               />
             ) : (
               console.log("Not medium priority")
@@ -120,8 +123,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               <Projects
                 project={project}
                 key={project.id}
-                userList={state.UserList}
+                username={state.User}
                 empStatus={state.perms}
+                userList={state.UserList}
               />
             ) : (
               console.log("Not low priority")
@@ -134,8 +138,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
             <Projects
               project={project}
               key={project.id}
-              userList={state.UserList}
+              username={state.User}
               empStatus={state.perms}
+              userList={state.UserList}
             />
           </div>
         ))

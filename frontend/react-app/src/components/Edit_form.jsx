@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { deleteProject, getProject, saveProject } from "../api/ProjectService";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "../api/ToastService";
 
 function Edit_form() {
@@ -15,14 +15,14 @@ function Edit_form() {
     userArray: [],
   });
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-
   const [errors, setErrors] = useState({});
 
   const { id } = useParams();
   console.log(id);
 
   const { state } = useLocation();
+
+  const navigate = useNavigate();
 
   const fetchProject = async (id) => {
     try {
@@ -35,37 +35,54 @@ function Edit_form() {
     }
   };
 
-  //Fix data to not be delayed when saved to
   const onCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
     if (checked) {
-      setSelectedUsers((prevUsers) => [...prevUsers, value]);
-      //console.log(selectedUsers);
+      setProject((prevProject) => ({
+        ...prevProject,
+        userArray: [...prevProject.userArray, value],
+      }));
     } else {
-      setSelectedUsers(selectedUsers.filter((e) => e !== value));
-      //console.log(selectedUsers);
+      setProject((prevProject) => ({
+        ...prevProject,
+        userArray: prevProject.userArray.filter((element) => element !== value),
+      }));
     }
-
-    setProject({ ...project, ["userArray"]: selectedUsers });
     console.log(project.userArray);
-    //console.log(selectedUsers);
   };
 
   const tryDelete = async (id) => {
     try {
       await deleteProject(id);
       toastSuccess("Successfully Deleted Project");
+      navigate("/projects", {
+        state: {
+          User: state.name,
+          perms: state.permission,
+          UserList: state.allUsers,
+        },
+      });
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toastError(error);
     }
   };
 
+  const goBack = async () => {
+    navigate("/projects", {
+      state: {
+        User: state.name,
+        perms: state.permission,
+        UserList: state.allUsers,
+      },
+    });
+    window.location.reload();
+  };
+
   useEffect(() => {
     fetchProject(id);
-    //console.log(state.allUsers);
-    //console.log(state.currUsers);
   }, []);
 
   const onChange = (e) => {
@@ -108,7 +125,7 @@ function Edit_form() {
     }
 
     if (project.day.trim() === "") {
-      errorMsg.date = "A day is required";
+      errorMsg.day = "A day is required";
       isValid = false;
     }
 
@@ -119,6 +136,11 @@ function Edit_form() {
 
     if (project.priority.trim() === "") {
       errorMsg.prio = "Priority is required";
+      isValid = false;
+    }
+
+    if (project.userArray.length === 0) {
+      errorMsg.users = "At least 1 worker is required";
       isValid = false;
     }
 
@@ -142,6 +164,7 @@ function Edit_form() {
         day: "",
         year: "",
         priority: "",
+        userArray: [],
       });
 
       fetchProject(id);
@@ -254,12 +277,14 @@ function Edit_form() {
             <input
               type="checkbox"
               value={element}
+              checked={project.userArray.includes(element)}
               onChange={onCheckboxChange}
             />
             <label>{element}</label>
           </div>
         ))}
       </div>
+      {errors.users && <p className="error-message">{errors.users}</p>}
 
       <p></p>
 
@@ -275,12 +300,10 @@ function Edit_form() {
         Delete
       </button>
 
-      <Link to={"/projects"} className="Link">
+      <button type="button" className="back_button" onClick={goBack}>
         Back
-      </Link>
+      </button>
     </form>
-    // Have it load all projects when returnign to the project page
-    // Have currUsers preselect checkboxes and be added to the projects state var
   );
 }
 
