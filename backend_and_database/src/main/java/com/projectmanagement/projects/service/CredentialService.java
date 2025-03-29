@@ -1,20 +1,17 @@
 package com.projectmanagement.projects.service;
 
+import com.projectmanagement.projects.config.SecurityConfig;
 import com.projectmanagement.projects.domain.Credential;
 import com.projectmanagement.projects.repo.CredentialRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

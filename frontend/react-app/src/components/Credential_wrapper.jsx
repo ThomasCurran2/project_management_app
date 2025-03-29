@@ -8,7 +8,7 @@ function Credential_wrapper() {
     <div className="credential_wrapper">
       {toggleSignUp ? (
         <div>
-          <h1>Sign up</h1>
+          <h1 className="title">Sign up</h1>
           <Sign_up_form />
           <button
             type="button"
@@ -20,7 +20,7 @@ function Credential_wrapper() {
         </div>
       ) : (
         <div>
-          <h1>Log in</h1>
+          <h1 className="title">Log in</h1>
           <Log_in_form />
           <button
             type="button"

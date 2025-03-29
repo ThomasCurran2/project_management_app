@@ -172,138 +172,148 @@ function Edit_form() {
   };
 
   return (
-    <form className="project_form" onSubmit={handleSubmit}>
-      <input type="hidden" defaultValue={project.id} name="id" required></input>
-      <input
-        type="text"
-        name="name"
-        className="project_name"
-        value={project.name}
-        placeholder="Project name"
-        onChange={onChange}
-      ></input>
-      {errors.name && <p className="error-message">{errors.name}</p>}
-
-      <p></p>
-
-      <input
-        type="text"
-        name="description"
-        className="project_desc"
-        value={project.description}
-        placeholder="Description"
-        onChange={onChange}
-      ></input>
-      {errors.desc && <p className="error-message">{errors.desc}</p>}
-
-      <p></p>
-      <div>
-        <h3>Due date</h3>
+    <div>
+      <h1 className="title">Edit Project</h1>
+      <form className="project_form" onSubmit={handleSubmit}>
         <input
-          type="number"
-          name="month"
-          className="month"
-          min="1"
-          max="12"
-          value={project.month}
-          placeholder="mm"
+          type="hidden"
+          defaultValue={project.id}
+          name="id"
+          required
+        ></input>
+        <input
+          type="text"
+          name="name"
+          className="project_name"
+          value={project.name}
+          placeholder="Project name"
           onChange={onChange}
         ></input>
+        {errors.name && <p className="error-message">{errors.name}</p>}
 
-        <input
-          type="number"
-          name="day"
-          className="day"
-          min="1"
-          max="31"
-          value={project.day}
-          placeholder="dd"
-          onChange={onChange}
-        ></input>
-
-        <input
-          type="number"
-          name="year"
-          className="year"
-          min="2025"
-          max="9999"
-          value={project.year}
-          placeholder="yyyy"
-          onChange={onChange}
-        ></input>
-      </div>
-      {errors.month && <p className="error-message">{errors.month}</p>}
-      {errors.day && <p className="error-message">{errors.day}</p>}
-      {errors.year && <p className="error-message">{errors.year}</p>}
-
-      <p></p>
-
-      <div>
-        <h3>Project priority</h3>
         <p></p>
+
+        <input
+          type="text"
+          name="description"
+          className="project_desc"
+          value={project.description}
+          placeholder="Description"
+          onChange={onChange}
+        ></input>
+        {errors.desc && <p className="error-message">{errors.desc}</p>}
+
+        <p></p>
+        <div>
+          <h3>Due date</h3>
+          <input
+            type="number"
+            name="month"
+            className="month"
+            min="1"
+            max="12"
+            value={project.month}
+            placeholder="mm"
+            onChange={onChange}
+          ></input>
+
+          <input
+            type="number"
+            name="day"
+            className="day"
+            min="1"
+            max="31"
+            value={project.day}
+            placeholder="dd"
+            onChange={onChange}
+          ></input>
+
+          <input
+            type="number"
+            name="year"
+            className="year"
+            min="2025"
+            max="9999"
+            value={project.year}
+            placeholder="yyyy"
+            onChange={onChange}
+          ></input>
+        </div>
+        {errors.month && <p className="error-message">{errors.month}</p>}
+        {errors.day && <p className="error-message">{errors.day}</p>}
+        {errors.year && <p className="error-message">{errors.year}</p>}
+
+        <p></p>
+
+        <div>
+          <h3>Project priority</h3>
+          <p></p>
+          <button
+            type="button"
+            name="priority"
+            className="low_priority"
+            value={project.priority}
+            onClick={() => handlePrioClick("Low")}
+          >
+            Low
+          </button>
+          <button
+            type="button"
+            name="priority"
+            className="med_priority"
+            value={project.priority}
+            onClick={() => handlePrioClick("Medium")}
+          >
+            Medium
+          </button>
+          <button
+            type="button"
+            name="priority"
+            className="high_priority"
+            value={project.priority}
+            onClick={() => handlePrioClick("High")}
+          >
+            High
+          </button>
+        </div>
+        {errors.prio && <p className="error-message">{errors.prio}</p>}
+
+        <h3>Assign workers</h3>
+
+        <div className="checkbox_div" id="checkbox-div">
+          {state.allUsers.map((element) => (
+            <div key={element}>
+              <input
+                type="checkbox"
+                value={element}
+                checked={project.userArray.includes(element)}
+                onChange={onCheckboxChange}
+              />
+              <label>{element}</label>
+            </div>
+          ))}
+        </div>
+        {errors.users && <p className="error-message">{errors.users}</p>}
+
+        <p></p>
+
+        <button type="submit" className="project_button">
+          Confirm
+        </button>
+
         <button
           type="button"
-          name="priority"
-          className="low_priority"
-          value={project.priority}
-          onClick={() => handlePrioClick("Low")}
+          className="delete_button"
+          onClick={() => tryDelete(id)}
         >
-          Low
+          Delete
         </button>
-        <button
-          type="button"
-          name="priority"
-          className="med_priority"
-          value={project.priority}
-          onClick={() => handlePrioClick("Medium")}
-        >
-          Medium
+
+        <button type="button" className="back_button" onClick={goBack}>
+          Back
         </button>
-        <button
-          type="button"
-          name="priority"
-          className="high_priority"
-          value={project.priority}
-          onClick={() => handlePrioClick("High")}
-        >
-          High
-        </button>
-      </div>
-      {errors.prio && <p className="error-message">{errors.prio}</p>}
-
-      <div id="checkbox-div">
-        {state.allUsers.map((element) => (
-          <div key={element}>
-            <input
-              type="checkbox"
-              value={element}
-              checked={project.userArray.includes(element)}
-              onChange={onCheckboxChange}
-            />
-            <label>{element}</label>
-          </div>
-        ))}
-      </div>
-      {errors.users && <p className="error-message">{errors.users}</p>}
-
-      <p></p>
-
-      <button type="submit" className="project_button">
-        Confirm
-      </button>
-
-      <button
-        type="button"
-        className="delete_button"
-        onClick={() => tryDelete(id)}
-      >
-        Delete
-      </button>
-
-      <button type="button" className="back_button" onClick={goBack}>
-        Back
-      </button>
-    </form>
+      </form>
+    </div>
   );
 }
 

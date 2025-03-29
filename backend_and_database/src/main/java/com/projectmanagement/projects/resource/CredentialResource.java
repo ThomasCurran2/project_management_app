@@ -33,7 +33,7 @@ public class CredentialResource {
                     return ResponseEntity.ok().body(credentialService.getCredential(id));
                 }
      */
-
+    
     @GetMapping
     public ResponseEntity<List<Object>> getAuthenticated(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password){
         List<Object> response = new ArrayList<>();

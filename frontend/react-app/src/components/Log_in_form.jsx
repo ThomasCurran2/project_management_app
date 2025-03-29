@@ -93,7 +93,7 @@ function Log_in_form() {
   };
 
   return (
-    <form className="sign_up_form" onSubmit={handleSubmit}>
+    <form className="log_in_form" onSubmit={handleSubmit}>
       <input
         type="text"
         name="username"

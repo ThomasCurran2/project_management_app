@@ -15,7 +15,7 @@ function Projects({ project, username, userList, empStatus }) {
   };
 
   return (
-    <div className="Projects">
+    <div className="project_div">
       <p>{project.name}</p>
       <p>{project.description}</p>
       <p>

@@ -124,6 +124,20 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     }
   };
 
+  const goback = () => {
+    setData({
+      name: "",
+      description: "",
+      month: "",
+      day: "",
+      year: "",
+      priority: "",
+      userArray: [],
+    });
+
+    toggleProjectForm();
+  };
+
   return (
     <form className="project_form" onSubmit={handleSubmit}>
       <input
@@ -223,7 +237,9 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
       </div>
       {errors.prio && <p className="error-message">{errors.prio}</p>}
 
-      <div id="checkbox-div">
+      <h3>Assign workers</h3>
+
+      <div className="checkbox_div" id="checkbox-div">
         {userList.map((element) => (
           <div key={element}>
             <input
@@ -239,6 +255,10 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
 
       <button type="submit" className="project_button">
         Add Project
+      </button>
+
+      <button type="button" className="back_button" onClick={goback}>
+        Cancel
       </button>
     </form>
   );

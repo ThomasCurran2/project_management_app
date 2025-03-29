@@ -30,29 +30,44 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
 
   return (
     <div className="Project_wrapper">
-      <h1>Projects</h1>
+      {!isAdding ? (
+        <div className="user_welcome">
+          <h4>
+            Welcome: {state.User} ({state.perms})
+          </h4>
+        </div>
+      ) : (
+        console.log("Not adding a project")
+      )}
 
-      <div>
-        <h1>{state.User}</h1>
-        <h1>{state.perms}</h1>
-      </div>
+      {!isAdding ? (
+        <div className="title">
+          <h1>Projects</h1>
+        </div>
+      ) : (
+        console.log("Not adding a project")
+      )}
 
-      <div>
-        {category}
-        <select onChange={handleCategoryChange}>
-          <option value={"Select a category"}></option>
-          {categories.map((category) => (
-            <option value={category.value}>{category.label}</option>
-          ))}
-        </select>
-      </div>
-
-      {state.perms === "Admin" ? (
+      {state.perms === "Admin" && !isAdding ? (
         <button className="add_button" onClick={toggleProjectForm}>
           Add New Project
         </button>
       ) : (
         console.log("Not an Admin")
+      )}
+
+      {!isAdding ? (
+        <div className="category_menu">
+          {category}
+          <select onChange={handleCategoryChange}>
+            <option value={"Select a category"}></option>
+            {categories.map((category) => (
+              <option value={category.value}>{category.label}</option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        console.log("Not adding a project")
       )}
 
       {data?.content?.length === 0 ? (
@@ -61,7 +76,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         </div>
       ) : isAdding ? (
         <div>
-          <h1>Create New Project</h1>
+          <h1 className="title">Create New Project</h1>
           <Project_form
             toggleProjectForm={toggleProjectForm}
             getAllProjects={getAllProjects}
@@ -70,7 +85,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         </div>
       ) : category === "Assigned" ? (
         data.content?.map((project) => (
-          <div>
+          <div className="project_div">
             {project.userArray.includes(state.User) ? (
               <Projects
                 project={project}
@@ -86,7 +101,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "High" ? (
         data.content?.map((project) => (
-          <div>
+          <div className="project_div">
             {project.priority.includes("High") ? (
               <Projects
                 project={project}
@@ -102,7 +117,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "Med" ? (
         data.content?.map((project) => (
-          <div>
+          <div className="project_div">
             {project.priority.includes("Medium") ? (
               <Projects
                 project={project}
@@ -118,7 +133,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "Low" ? (
         data.content?.map((project) => (
-          <div>
+          <div className="project_div">
             {project.priority.includes("Low") ? (
               <Projects
                 project={project}
@@ -134,7 +149,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : (
         data.content?.map((project) => (
-          <div>
+          <div className="project_div">
             <Projects
               project={project}
               key={project.id}
