@@ -11,6 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
+/**
+ * Credential is used to create a credential entity
+ * that structures user data.
+ * @author Thomas Curran
+ *
+ */
 @Entity
 @Table(name = "credentials")
 @Getter

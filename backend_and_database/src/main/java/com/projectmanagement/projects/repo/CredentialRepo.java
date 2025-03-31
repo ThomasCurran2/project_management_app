@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * CredentialRepo is used to set up JPA functionality
+ * and declare methods used in the CredentialResource file.
+ * @author Thomas Curran
+ *
+ */
 @Repository
 public interface CredentialRepo extends JpaRepository<Credential, String> {
     Optional<Credential> findById(String id);

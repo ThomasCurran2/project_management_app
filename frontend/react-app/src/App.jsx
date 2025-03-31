@@ -9,10 +9,17 @@ import { toastError } from "./api/ToastService";
 import { ToastContainer } from "react-toastify";
 import Credential_wrapper from "./components/Credential_wrapper";
 
+/**
+ * This component renders each endpoint with its elements.
+ * @returns {ReactNode} A React element that renders each endpoint.
+ */
 function App() {
   const [data, setData] = useState({});
   const [currentPage, setCurrentPage] = useState(0);
 
+  /**
+   * Gets every project on the current page and sets it to the 'data' object.
+   */
   const getAllProjects = async (page = 0, size = 10) => {
     try {
       setCurrentPage(page);

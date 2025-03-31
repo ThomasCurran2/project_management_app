@@ -4,6 +4,10 @@ import { getAuthenticated } from "../api/CredentialService";
 import { toastError, toastSuccess, toastWarning } from "../api/ToastService";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * This component renders the log in form when toggled in the credential wrapper.
+ * @returns {ReactNode} A React element that renders the sign up form and a submit button.
+ */
 function Log_in_form() {
   const [credentials, setCredentials] = useState({
     username: "",
@@ -14,10 +18,20 @@ function Log_in_form() {
 
   const navigate = useNavigate();
 
+  /**
+   * Sets the credentials object property changed by the user.
+   *
+   * @param {Event} e Event used to get what form input was changed.
+   */
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Checks form inputs for errors, authenticates their username/password, and loads the projects page.
+   *
+   * @param {Event} e Event used to see when the submit button is pressed.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -73,8 +87,6 @@ function Log_in_form() {
         username: "",
         password: "",
       });
-
-      //console.log(logStatus);
 
       if (logStatus.data[0] == "true") {
         toastSuccess("Successfully Logged In");

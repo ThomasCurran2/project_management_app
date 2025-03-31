@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { saveProject } from "../api/ProjectService";
 import { toastError, toastSuccess } from "../api/ToastService";
 
+/**
+ * This component renders the project form when toggled from the project wrapper.
+ *
+ * @param {Function} toggleProjectForm Function used to toggle between the project form and project wrapper.
+ * @param {Function} getAllProjects Function used to get all projects from the database.
+ * @param {List.<string>} userList List of every user, used to create the user assignment checkboxes.
+ * @returns {ReactNode} A React element that renders the project creation form, with a submit and cancel button.
+ */
 function Project_form({ toggleProjectForm, getAllProjects, userList }) {
   const [data, setData] = useState({
     name: "",
@@ -15,14 +23,20 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
 
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    console.log(data.userArray);
-  }, [data.userArray]);
-
+  /**
+   * Sets the data object property changed by the user.
+   *
+   * @param {Event} e Event used to get what form input was changed.
+   */
   const onChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Sets the data object userArray to match what checkboxes are selected.
+   *
+   * @param {Event} e Event used to get what checkbox was selected and its value.
+   */
   const onCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
@@ -39,10 +53,20 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     }
   };
 
+  /**
+   * Sets the data object prio property to match the clicked priority button value.
+   *
+   * @param {string} prio String used to set the prio property value.
+   */
   const handlePrioClick = (prio) => {
     setData({ ...data, ["priority"]: prio });
   };
 
+  /**
+   * Checks form inputs for errors, saves the project to the database, and returns to the main project page.
+   *
+   * @param {Event} e Event used to see when the submit button is pressed.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -107,8 +131,6 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
 
       setErrors({});
 
-      console.log(data);
-
       setData({
         name: "",
         description: "",
@@ -124,6 +146,9 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
     }
   };
 
+  /**
+   * Function used to return to the main project page when the cancel button is clicked.
+   */
   const goback = () => {
     setData({
       name: "",

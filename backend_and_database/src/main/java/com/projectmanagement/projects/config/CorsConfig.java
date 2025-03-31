@@ -23,11 +23,22 @@ import static org.springframework.http.HttpMethod.PATCH;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 
+/**
+ * CorsConfig is used to avoid Cors errors by declaring an origin, header settings, and filter configuration settings.
+ * @author Thomas Curran
+ *
+ */
 @Configuration
 public class CorsConfig {
 
     private static final String X_REQUESTED_WITH = "X-Requested-With";
 
+    /**
+     * <p>Configures settings for a CorsFilter used for requests made to the backend.
+     * </p>
+     * @return The CorsFilter with configured settings.
+     * @since 1.0
+     */
     @Bean
     public CorsFilter corsFilter(){
         var urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();

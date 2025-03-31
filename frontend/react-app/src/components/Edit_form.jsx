@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { deleteProject, getProject, saveProject } from "../api/ProjectService";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { toastError, toastSuccess } from "../api/ToastService";
-
+/**
+ * This component renders the edit form when selected from the project wrapper.
+ * @returns {ReactNode} A React element that renders the edit form, with a submit, delete, and back button.
+ */
 function Edit_form() {
   const [project, setProject] = useState({
     id: "",
@@ -18,23 +21,41 @@ function Edit_form() {
   const [errors, setErrors] = useState({});
 
   const { id } = useParams();
-  console.log(id);
 
   const { state } = useLocation();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchProject(id);
+  }, []);
+
+  /**
+   * Gets the project's data and sets it to the data variable.
+   * @param {string} id String used to get the data from a specific project.
+   */
   const fetchProject = async (id) => {
     try {
       const { data } = await getProject(id);
       setProject(data);
-      console.log(project);
     } catch (error) {
       console.log(error);
       toastError(error);
     }
   };
 
+  /**
+   * Sets the project object property changed by the user.
+   * @param {Event} e Event used to get what form input was changed.
+   */
+  const onChange = (e) => {
+    setProject({ ...project, [e.target.name]: e.target.value });
+  };
+
+  /**
+   * Sets the data object userArray to match what checkboxes are selected.
+   * @param {Event} e Event used to get what checkbox was selected and its value.
+   */
   const onCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
@@ -52,47 +73,18 @@ function Edit_form() {
     console.log(project.userArray);
   };
 
-  const tryDelete = async (id) => {
-    try {
-      await deleteProject(id);
-      toastSuccess("Successfully Deleted Project");
-      navigate("/projects", {
-        state: {
-          User: state.name,
-          perms: state.permission,
-          UserList: state.allUsers,
-        },
-      });
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-      toastError(error);
-    }
-  };
-
-  const goBack = async () => {
-    navigate("/projects", {
-      state: {
-        User: state.name,
-        perms: state.permission,
-        UserList: state.allUsers,
-      },
-    });
-    window.location.reload();
-  };
-
-  useEffect(() => {
-    fetchProject(id);
-  }, []);
-
-  const onChange = (e) => {
-    setProject({ ...project, [e.target.name]: e.target.value });
-  };
-
+  /**
+   * Sets the data object prio property to match the clicked priority button value.
+   * @param {string} prio String used to set the prio property value.
+   */
   const handlePrioClick = (prio) => {
     setProject({ ...project, ["priority"]: prio });
   };
 
+  /**
+   * Checks form inputs for errors, saves over the project in the database, and returns to the main project page.
+   * @param {Event} e Event used to see when the submit button is pressed.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -169,6 +161,42 @@ function Edit_form() {
 
       fetchProject(id);
     }
+  };
+
+  /**
+   * Trys to delete the project and returns to the main project page.
+   * @param {string} id String used to delete a specific project.
+   */
+  const tryDelete = async (id) => {
+    try {
+      await deleteProject(id);
+      toastSuccess("Successfully Deleted Project");
+      navigate("/projects", {
+        state: {
+          User: state.name,
+          perms: state.permission,
+          UserList: state.allUsers,
+        },
+      });
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+      toastError(error);
+    }
+  };
+
+  /**
+   * Function used to return to the main project page when the back button is clicked.
+   */
+  const goBack = async () => {
+    navigate("/projects", {
+      state: {
+        User: state.name,
+        perms: state.permission,
+        UserList: state.allUsers,
+      },
+    });
+    window.location.reload();
   };
 
   return (

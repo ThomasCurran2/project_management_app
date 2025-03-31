@@ -3,6 +3,15 @@ import { useLocation } from "react-router-dom";
 import Project_form from "./Project_form";
 import Projects from "./projects";
 
+/**
+ * This component renders the main project page and project creation page.
+ *
+ * @param {Page.<Project>} data Page containing all project objects on the page the user is on.
+ * @param {int} currentPage Int used to determine what page the user is on.
+ * @param {Function} getAllProjects Function used to get all prjects on the current page.
+ * @returns {ReactNode} A React element that renders the project list, filter menu, and the creation button.
+ */
+
 function Project_wrapper({ data, currentPage, getAllProjects }) {
   const [isAdding, setIsAdding] = useState(false);
 
@@ -17,15 +26,22 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
     { label: "Priority (Low)", value: "Low" },
   ];
 
+  /**
+   * Sets the filter category to be the value selected by the user.
+   *
+   * @param {Event} e Event used to get what category was selected.
+   */
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);
   };
 
+  /**
+   * Sets the boolean that shows/hides the project creation form.
+   */
   const toggleProjectForm = () => {
     {
       setIsAdding(!isAdding);
     }
-    console.log(isAdding);
   };
 
   return (
@@ -91,7 +107,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
                 project={project}
                 key={project.id}
                 username={state.User}
-                empStatus={state.perms}
+                empPerms={state.perms}
                 userList={state.UserList}
               />
             ) : (
@@ -107,7 +123,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
                 project={project}
                 key={project.id}
                 username={state.User}
-                empStatus={state.perms}
+                empPerms={state.perms}
                 userList={state.UserList}
               />
             ) : (
@@ -123,7 +139,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
                 project={project}
                 key={project.id}
                 username={state.User}
-                empStatus={state.perms}
+                empPerms={state.perms}
                 userList={state.UserList}
               />
             ) : (
@@ -139,7 +155,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
                 project={project}
                 key={project.id}
                 username={state.User}
-                empStatus={state.perms}
+                empPerms={state.perms}
                 userList={state.UserList}
               />
             ) : (
@@ -154,7 +170,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
               project={project}
               key={project.id}
               username={state.User}
-              empStatus={state.perms}
+              empPerms={state.perms}
               userList={state.UserList}
             />
           </div>

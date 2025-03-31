@@ -11,7 +11,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 
-
+/**
+ * Project is used to create a project entity
+ * that structures project data.
+ * @author Thomas Curran
+ *
+ */
 @Entity
 @Table(name = "projects")
 @Getter
