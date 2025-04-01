@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import Project_form from "./Project_form";
+import ProjectForm from "./ProjectForm";
 import Projects from "./projects";
+import { toastWarning } from "../api/ToastService";
 
 /**
  * This component renders the main project page and project creation page.
  *
  * @param {Page.<Project>} data Page containing all project objects on the page the user is on.
  * @param {int} currentPage Int used to determine what page the user is on.
- * @param {Function} getAllProjects Function used to get all prjects on the current page.
+ * @param {Function} getAllProjects Function used to get all prjects on the first page.
  * @returns {ReactNode} A React element that renders the project list, filter menu, and the creation button.
  */
 
-function Project_wrapper({ data, currentPage, getAllProjects }) {
+function ProjectWrapper({ data, getAllProjects }) {
   const [isAdding, setIsAdding] = useState(false);
 
   const [category, setCategory] = useState("Select a category");
@@ -40,7 +41,11 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
    */
   const toggleProjectForm = () => {
     {
-      setIsAdding(!isAdding);
+      if (data.content?.length >= 10) {
+        toastWarning("Can't add more than 10 projects!");
+      } else {
+        setIsAdding(!isAdding);
+      }
     }
   };
 
@@ -93,7 +98,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
       ) : isAdding ? (
         <div>
           <h1 className="title">Create New Project</h1>
-          <Project_form
+          <ProjectForm
             toggleProjectForm={toggleProjectForm}
             getAllProjects={getAllProjects}
             userList={state.UserList}
@@ -101,7 +106,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         </div>
       ) : category === "Assigned" ? (
         data.content?.map((project) => (
-          <div className="project_div">
+          <div>
             {project.userArray.includes(state.User) ? (
               <Projects
                 project={project}
@@ -117,7 +122,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "High" ? (
         data.content?.map((project) => (
-          <div className="project_div">
+          <div>
             {project.priority.includes("High") ? (
               <Projects
                 project={project}
@@ -133,7 +138,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "Med" ? (
         data.content?.map((project) => (
-          <div className="project_div">
+          <div>
             {project.priority.includes("Medium") ? (
               <Projects
                 project={project}
@@ -149,7 +154,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : category === "Low" ? (
         data.content?.map((project) => (
-          <div className="project_div">
+          <div>
             {project.priority.includes("Low") ? (
               <Projects
                 project={project}
@@ -165,7 +170,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       ) : (
         data.content?.map((project) => (
-          <div className="project_div">
+          <div>
             <Projects
               project={project}
               key={project.id}
@@ -177,6 +182,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
         ))
       )}
 
+      {/* Page selection code, currently in development 
       {data?.content?.length > 0 && data?.totalPages > 1 && (
         <div>
           <a
@@ -193,7 +199,7 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
                 className={currentPage === page ? "active" : ""}
                 key={page}
               >
-                {page + 1}
+                {page + 1 + " "}
               </a>
             ))}
 
@@ -205,8 +211,9 @@ function Project_wrapper({ data, currentPage, getAllProjects }) {
           </a>
         </div>
       )}
+        */}
     </div>
   );
 }
 
-export default Project_wrapper;
+export default ProjectWrapper;

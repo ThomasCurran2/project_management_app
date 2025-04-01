@@ -6,7 +6,7 @@ import { toastError, toastSuccess } from "../api/ToastService";
  * This component renders the edit form when selected from the project wrapper.
  * @returns {ReactNode} A React element that renders the edit form, with a submit, delete, and back button.
  */
-function Edit_form() {
+function EditForm() {
   const [project, setProject] = useState({
     id: "",
     name: "",
@@ -345,4 +345,4 @@ function Edit_form() {
   );
 }
 
-export default Edit_form;
+export default EditForm;

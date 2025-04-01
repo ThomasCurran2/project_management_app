@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 
 /**
  * This component renders the log in form when toggled in the credential wrapper.
- * @returns {ReactNode} A React element that renders the sign up form and a submit button.
+ * @returns {ReactNode} A React element that renders the log in form and a submit button.
  */
-function Log_in_form() {
+function LogInForm() {
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -137,4 +137,4 @@ function Log_in_form() {
   );
 }
 
-export default Log_in_form;
+export default LogInForm;

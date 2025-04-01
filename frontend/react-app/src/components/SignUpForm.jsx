@@ -6,7 +6,7 @@ import { toastError, toastSuccess } from "../api/ToastService";
  * This component renders the sign up form when toggled in the credential wrapper.
  * @returns {ReactNode} A React element that renders the sign up form and a submit button.
  */
-function Sign_up_form() {
+function SignUpForm() {
   const [account, setAccount] = useState({
     username: "",
     password: "",
@@ -115,4 +115,4 @@ function Sign_up_form() {
   );
 }
 
-export default Sign_up_form;
+export default SignUpForm;

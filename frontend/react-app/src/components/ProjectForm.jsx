@@ -10,7 +10,7 @@ import { toastError, toastSuccess } from "../api/ToastService";
  * @param {List.<string>} userList List of every user, used to create the user assignment checkboxes.
  * @returns {ReactNode} A React element that renders the project creation form, with a submit and cancel button.
  */
-function Project_form({ toggleProjectForm, getAllProjects, userList }) {
+function ProjectForm({ toggleProjectForm, getAllProjects, userList }) {
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -289,4 +289,4 @@ function Project_form({ toggleProjectForm, getAllProjects, userList }) {
   );
 }
 
-export default Project_form;
+export default ProjectForm;

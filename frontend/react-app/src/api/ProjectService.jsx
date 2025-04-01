@@ -6,7 +6,7 @@ const API_URL = "http://localhost:8080/projects";
  * Request method that saves a project object to the database.
  *
  * @param {Object} project Object containing project details.
- * @returns {Promise} Post requeset responce from the backend, returns as a AxiosResponce if successful.
+ * @returns {Promise} Post request responce from the backend, returns as a AxiosResponce if successful.
  */
 export async function saveProject(project) {
   return await axios.post(API_URL, project);
@@ -19,7 +19,7 @@ export async function saveProject(project) {
  * @param {int} size Int specifying how many items are on each page.
  * @returns {Page.<Project>} Get request responce, returns a page of projects from the database.
  */
-export async function getProjects(page = 0, size = 10) {
+export async function getProjects(page, size = 10) {
   return await axios.get(`${API_URL}?page=${page}&size=${size}`);
 }
 

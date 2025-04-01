@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
  * @param {String} username String used to save the username when changing endpoints.
  * @param {List.<string>} userList List used to save all usernames when changing endpoints.
  * @param {string} empPerms String used to save the employee permission when changing endpoints.
- * @returns {ReactNode} A React element that renders a greeting to the user.
+ * @returns {ReactNode} A React element that renders project data.
  */
 function Projects({ project, username, userList, empPerms }) {
   const navigate = useNavigate();
@@ -28,13 +28,13 @@ function Projects({ project, username, userList, empPerms }) {
 
   return (
     <div className="project_div">
-      <p>{project.name}</p>
-      <p>{project.description}</p>
+      <p>{"Name: " + project.name}</p>
+      <p>{"Description: " + project.description}</p>
       <p>
         {"Due date: " + project.month + "/" + project.day + "/" + project.year}
       </p>
-      <p>{project.priority}</p>
-      <p>{"Assigned workers: " + project.userArray}</p>
+      <p>{"Priority: " + project.priority}</p>
+      <p>{"Assigned workers: " + project.userArray.join(", ")}</p>
 
       {empPerms === "Admin" ? (
         <div>
