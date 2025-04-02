@@ -2,11 +2,15 @@ package com.projectmanagement.projects.service;
 
 import com.projectmanagement.projects.config.SecurityConfig;
 import com.projectmanagement.projects.domain.Credential;
+import com.projectmanagement.projects.domain.Project;
 import com.projectmanagement.projects.repo.CredentialRepo;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +31,12 @@ public class CredentialService {
     private final CredentialRepo credentialRepo;
 
     private final PasswordEncoder passwordEncoder;
+
+/*
+    public Page<Credential> getAllCreds(int page, int size){
+        return credentialRepo.findAll(PageRequest.of(page, size, Sort.by("username")));
+    }
+    */
 
     /**
      * <p>Used to get all usernames in the database.

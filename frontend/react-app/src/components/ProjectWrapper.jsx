@@ -91,11 +91,7 @@ function ProjectWrapper({ data, getAllProjects }) {
         console.log("Not adding a project")
       )}
 
-      {data?.content?.length === 0 ? (
-        <div>
-          <h1>No Projects. Please add a new project.</h1>
-        </div>
-      ) : isAdding ? (
+      {isAdding ? (
         <div>
           <h1 className="title">Create New Project</h1>
           <ProjectForm
