@@ -1,0 +1,162 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/*project form css*/
+.project_form {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  border: solid;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.project_name {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+  background-color: #ffffff;
+}
+
+.project_desc {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+  background-color: #ffffff;
+}
+
+.month {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+  background-color: #ffffff;
+}
+
+.day {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+  background-color: #ffffff;
+}
+
+.year {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  margin-left: 10px;
+  background-color: #ffffff;
+}
+
+.checkbox_div {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #ffffff;
+  border-radius: 10px 10px 10px 10px;
+}
+
+/*project wrapper and project css*/
+.project_div {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  border: solid;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.user_welcome {
+  text-align: center;
+}
+
+.title {
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.category_menu {
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.add_button {
+  margin: 0 auto;
+  text-align: center;
+}
+
+/*credential wrapper and log in/sign up form css*/
+.log_in_form {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.sign_up_form {
+  text-align: center;
+  padding: 0.5rem;
+  background-color: #ebebeb;
+  border-radius: 10px 10px 10px 10px;
+}
+
+.toggle_button {
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}
+
+.username {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  background-color: #ffffff;
+}
+
+.password {
+  text-align: center;
+  padding: 0.5rem;
+  height: 20px;
+  flex: 0 0 200px;
+  background-color: #ffffff;
+}
+
+/*error messages*/
+.error-message {
+  color: rgb(173, 0, 0);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
