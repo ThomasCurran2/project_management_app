@@ -40,25 +40,25 @@ To use this app, follow these steps:
 
 Demo Video:
 
-  [![Demo Video](https://img.youtube.com/vi/xfxBACHehOo/0.jpg)](https://www.youtube.com/watch?v=xfxBACHehOo)
+  [![Demo Video](https://img.youtube.com/vi/iiXMNSpZgpE/0.jpg)](https://www.youtube.com/watch?v=iiXMNSpZgpE)
 
 ## **Features**
 
 1. Sign up and Login page
 <p align="center">
-    <img src = "readme_images/fr_sign_in.png" width = 400> <img src = "readme_images/fr_login.png" width = 400>
+    <img src = "Images/PM_signup.PNG" width = 400> <img src = "Images/PM_login.PNG" width = 400>
   </p>
 2. Creating and editing projects
 <p align="center">
-  <img src = "readme_images/fr_save_images.png" width = 350>
+  <img src = "Images/PM_create.PNG" width = 400> <img src = "Images/PM_edit.PNG" width = 400>
   </p>
 3. Project filters
 <p align="center">
-  <img src = "readme_images/fr_manager.png" width = 400> <img src = "readme_images/fr_manager_window.png" width = 400>
+  <img src = "Images/PM_assigned.PNG" width = 400> <img src = "Images/PM_high.PNG" width = 400>
   </p>
 4. Employee and Admin versions
 <p align="center">
-  <img src = "readme_images/fr_monitoring.png" width = 500>
+  <img src = "Images/PM_employee.PNG" width = 400> <img src = "Images/PM_admin.PNG" width = 400>
  </p>
 
 ## **Reasources**
